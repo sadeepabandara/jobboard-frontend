@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ const Register = () => {
     setSuccess("");
 
     try {
-      await axios.post("http://localhost:4000/register", {
+      await axios.post(`${API_URL}/register`, {
         name,
         email,
         password,

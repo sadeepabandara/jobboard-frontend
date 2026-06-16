@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface Job {
   id: number;
   title: string;
@@ -22,7 +24,7 @@ const Jobs = () => {
 
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/jobs");
+      const response = await axios.get(`${API_URL}/jobs`);
       setJobs(response.data);
     } catch (err) {
       setError("Failed to fetch jobs");
@@ -40,7 +42,7 @@ const Jobs = () => {
 
     try {
       await axios.post(
-        "http://localhost:4000/jobs",
+        `${API_URL}/jobs`,
         { title, description, company },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -58,7 +60,7 @@ const Jobs = () => {
   const handleApply = async (jobId: number) => {
     try {
       await axios.post(
-        "http://localhost:4000/applications",
+        `${API_URL}/applications`,
         { job_id: jobId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -21,6 +21,9 @@ const Jobs = () => {
   const [company, setCompany] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [resumeFiles, setResumeFiles] = useState<{
+    [key: number]: File | null;
+  }>({});
 
   const fetchJobs = async () => {
     try {
@@ -44,7 +47,7 @@ const Jobs = () => {
       await axios.post(
         `${API_URL}/jobs`,
         { title, description, company },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setSuccess("Job created successfully!");
@@ -57,13 +60,26 @@ const Jobs = () => {
     }
   };
 
+  const handleFileChange = (jobId: number, file: File | null) => {
+    setResumeFiles((prev) => ({ ...prev, [jobId]: file }));
+  };
+
   const handleApply = async (jobId: number) => {
     try {
-      await axios.post(
-        `${API_URL}/applications`,
-        { job_id: jobId },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const formData = new FormData();
+      formData.append("job_id", jobId.toString());
+
+      const file = resumeFiles[jobId];
+      if (file) {
+        formData.append("resume", file);
+      }
+
+      await axios.post(`${API_URL}/applications`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       alert("Applied successfully!");
     } catch (err: any) {
       alert(err.response?.data?.error || "Failed to apply");
@@ -118,6 +134,14 @@ const Jobs = () => {
               <p style={styles.date}>
                 Posted: {new Date(job.created_at).toLocaleDateString()}
               </p>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                onChange={(e) =>
+                  handleFileChange(job.id, e.target.files?.[0] || null)
+                }
+                style={{ marginBottom: "0.5rem", display: "block" }}
+              />
               <button
                 style={styles.applyButton}
                 onClick={() => handleApply(job.id)}

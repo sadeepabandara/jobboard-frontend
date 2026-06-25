@@ -65,6 +65,11 @@ const JobDetail = () => {
         body: formData,
       });
 
+      if (res.status === 401) {
+        navigate("/login");
+        return;
+      }
+
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.error || "Failed to apply");
@@ -286,9 +291,7 @@ const JobDetail = () => {
                 </div>
               ) : (
                 <div>
-                  <p className="text-sm text-slate-600">
-                    Upload your resume
-                  </p>
+                  <p className="text-sm text-slate-600">Upload your resume</p>
                   <p className="text-xs text-slate-400 mt-1">
                     PDF, DOC, DOCX up to 10MB
                   </p>
@@ -296,9 +299,7 @@ const JobDetail = () => {
               )}
             </div>
 
-            {error && (
-              <p className="text-xs text-red-500 mt-3">{error}</p>
-            )}
+            {error && <p className="text-xs text-red-500 mt-3">{error}</p>}
 
             <div className="flex gap-3 mt-5">
               <button

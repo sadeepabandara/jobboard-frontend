@@ -78,17 +78,24 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!token) return;
-    fetch(`${API_URL}/applications`, {
-      headers: { Authorization: `Bearer ${token}` },
+  if (!token) {
+    navigate("/login");
+    return;
+  }
+  fetch(`${API_URL}/applications`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
+    .then(async (r) => {
+      if (r.status === 401) {
+        navigate("/login");
+        return;
+      }
+      const data = await r.json();
+      setApplications(data);
+      setLoading(false);
     })
-      .then((r) => r.json())
-      .then((data) => {
-        setApplications(data);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, [token, API_URL]);
+    .catch(() => setLoading(false));
+}, [token, API_URL, navigate]);
 
   const stats = {
     total: applications.length,

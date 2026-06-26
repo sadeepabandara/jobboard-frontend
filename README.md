@@ -4,7 +4,7 @@ A modern, responsive job board web application built with React, TypeScript, and
 
 ## Live Demo
 
-[https://jobboard-frontend-alpha.vercel.app](https://jobboard-frontend-alpha.vercel.app)
+[https://thetalentboard.vercel.app](https://thetalentboard.vercel.app)
 
 **Test credentials:**
 - Email: `s3test@test.com`
@@ -47,12 +47,12 @@ A modern, responsive job board web application built with React, TypeScript, and
 
 ## Local Development
 
-**Prerequisites:** Node.js 20+, jobboard-backend running on port 4000
+**Prerequisites:** Node.js 20+, talentboard-backend running on port 4000
 
 ```bash
 # Clone the repo
-git clone https://github.com/sadeepabandara/jobboard-frontend.git
-cd jobboard-frontend
+git clone https://github.com/sadeepabandara/talentboard-frontend.git
+cd talentboard-frontend
 
 # Install dependencies
 npm install
@@ -97,4 +97,4 @@ src/
 
 ## Backend Repository
 
-The API powering this frontend: [jobboard-backend](https://github.com/sadeepabandara/jobboard-backend)
+The API powering this frontend: [talentboard-backend](https://github.com/sadeepabandara/talentboard-backend)

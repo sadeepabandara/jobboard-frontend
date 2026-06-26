@@ -1,73 +1,100 @@
-# React + TypeScript + Vite
+# TalentBoard — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive job board web application built with React, TypeScript, and Tailwind CSS. Deployed to Vercel with automatic deployments on every push.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+[https://jobboard-frontend-alpha.vercel.app](https://jobboard-frontend-alpha.vercel.app)
 
-## React Compiler
+**Test credentials:**
+- Email: `s3test@test.com`
+- Password: `test123456`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+| Layer | Technology |
+|---|---|
+| Framework | React 18 + TypeScript |
+| Build Tool | Vite |
+| Styling | Tailwind CSS v4 |
+| Routing | React Router v6 |
+| HTTP Client | Axios |
+| Icons | Lucide React |
+| Auth | JWT (stored in localStorage) |
+| Deployment | Vercel |
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Pages
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Route | Description | Auth Required |
+|---|---|---|
+| `/` | Home — hero search + recent listings | No |
+| `/jobs` | Browse all jobs with search and filters | No |
+| `/jobs/:id` | Job detail with apply modal + resume upload | No |
+| `/post-job` | Create a new job listing | Yes |
+| `/dashboard` | Track your applications and statuses | Yes |
+| `/login` | Sign in to your account | No |
+| `/register` | Create a new account | No |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Features
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Job search and filter by type (Full-time, Part-time, Contract, Remote, Graduate)
+- Resume upload on job applications (stored in AWS S3)
+- Protected routes for authenticated actions
+- Persistent auth with localStorage token storage
+- Automatic redirect on token expiry
+- Responsive design with clean corporate aesthetic
+- Loading skeletons for async content
+
+## Local Development
+
+**Prerequisites:** Node.js 20+, jobboard-backend running on port 4000
+
+```bash
+# Clone the repo
+git clone https://github.com/sadeepabandara/jobboard-frontend.git
+cd jobboard-frontend
+
+# Install dependencies
+npm install
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env — set VITE_API_URL=http://localhost:4000
+
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Open [http://localhost:5173](http://localhost:5173)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Environment Variables
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+VITE_API_URL=http://localhost:4000
+```
+
+For production, set `VITE_API_URL` to your deployed backend URL in Vercel's environment variable settings.
+
+## Project Structure
+
+```
+src/
+  ├── components/
+  │   └── Navbar.tsx
+  ├── context/
+  │   └── AuthContext.tsx       # Global auth state + JWT management
+  ├── pages/
+  │   ├── Home.tsx
+  │   ├── Jobs.tsx
+  │   ├── JobDetail.tsx
+  │   ├── PostJob.tsx
+  │   ├── Dashboard.tsx
+  │   ├── Login.tsx
+  │   └── Register.tsx
+  ├── App.tsx                   # Routes + protected route logic
+  └── main.tsx
+```
+
+## Backend Repository
+
+The API powering this frontend: [jobboard-backend](https://github.com/sadeepabandara/jobboard-backend)
